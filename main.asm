@@ -22,7 +22,7 @@ extern fflush
 
 global main
 
-section .data
+section .rodata
     windowName db "RayCast_inator", 0
 
     msgInit db "Initialized sdl!", 0xA, 0
@@ -33,26 +33,28 @@ section .data
     msgMoving db "Moving!", 0xA, 0
     msgPosition db "Pos: %d %d", 0xA, 0
 
-    initFailure db "Failed to init SDL3!", 0xA, 0
+    msgInitFailure db "Failed to init SDL3!", 0xA, 0
    
     SDL_INIT_VIDEO equ  0x00000020 
     SDL_EVENT_QUIT equ 0x100
     SDL_EVENT_KEY_DOWN equ 0x300
-    
     KEY_OFFSET equ 28
+    
     ZERO dq 0.0
     ONE dq 1.0
     MINUS_ONE dq -1.0
     HALF_PI dq 1.57
     PI dq 3.14
     TWO_PI dq 6.28
+    
     SCREEN_HEIGHT dd 600
     SCREEN_WIDTH dd 800
     PLAYER_SPEED dq 0.0625
     PLAYER_ROTATION_SPEED dq 0.1
     MAP_SIZE_X dq 10
     MAP_SIZE_Y dq 10
-    
+
+section .data
     playerPosX dq 5.0
     playerPosY dq 5.0
 
@@ -78,7 +80,7 @@ main:
     jmp init_success
     ; if SDL_Init failed
 init_failure:
-    mov rdi, initFailure,
+    mov rdi, msgInitFailure,
     xor rax, rax
     call printf
     jmp main_exit
